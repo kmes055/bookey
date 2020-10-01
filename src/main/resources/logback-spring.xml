@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <springProfile name="local">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>%-5level %d{HH:mm:ss.SSS} [%thread] %class{36}.%method:%line - %msg%n</Pattern>
+            </layout>
+        </appender>
+
+        <root level="debug">
+            <appender-ref ref="STDOUT" />
+        </root>
+    </springProfile>
+
+    <springProfile name="dev">
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>/home1/irteam/logs/spring/bookey/bookey.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <!-- rollover daily or active file size exceeds 100MB -->
+                <fileNamePattern>/home1/irteam/logs/spring/bookey/backup/bookey.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+                <maxFileSize>100MB</maxFileSize>
+                <!-- keep 180 days' worth of history -->
+                <maxHistory>180</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <charset>UTF-8</charset>
+                <pattern>%-5level %d{HH:mm:ss.SSS} [%thread] %class{36}.%method:%line - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="FILE" />
+        </root>
+    </springProfile>
+
+    <springProfile name="release">
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>/home1/irteam/logs/spring/bookey/bookey.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <!-- rollover daily or active file size exceeds 100MB -->
+                <fileNamePattern>/home1/irteam/logs/spring/bookey/backup/bookey.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+                <maxFileSize>100MB</maxFileSize>
+                <!-- keep 180 days' worth of history -->
+                <maxHistory>180</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <charset>UTF-8</charset>
+                <pattern>%-5level %d{HH:mm:ss.SSS} [%thread] %class{36}.%method:%line - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+            <smtpHost>smtp.naver.com</smtpHost>
+            <to>kmes055@nhn.com</to>
+            <from>kmes055@nhn.com</from>
+            <subject>[Bookey] Bookey Exception</subject>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[%-5level] %d{YYYY-MM-dd HH:mm:ss} [%thread] %class{36}.%method:%line - %msg%n</pattern>
+            </layout>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+            <cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+                <bufferSize>1</bufferSize>
+            </cyclicBufferTracker>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="FILE" />
+        </root>
+    </springProfile>
+</configuration>
