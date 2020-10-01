@@ -6,11 +6,16 @@ plugins {
     war
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
+    id("org.jetbrains.intellij") version "0.4.1" apply false
 }
 
 group = "com.bookeyproject"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 configurations {
     compileOnly {
