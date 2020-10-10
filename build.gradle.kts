@@ -76,3 +76,8 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "11"
     }
 }
+
+tasks.getByName<BootWar>("bootWar") {
+    mainClassName = "com.bookeyproject.bookey.BookeyApplication"
+    archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
+}
