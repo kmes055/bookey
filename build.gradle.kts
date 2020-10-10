@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootWar
 
 plugins {
     id("org.springframework.boot") version "2.3.4.RELEASE"
@@ -30,15 +31,24 @@ repositories {
 extra["azureVersion"] = "2.3.5"
 
 dependencies {
+    // Sporing
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.microsoft.azure:azure-keyvault-secrets-spring-boot-starter")
-    implementation("com.microsoft.azure:azure-spring-boot-starter")
+
+    // Kotlin
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    // Azure
+    implementation("com.microsoft.azure:azure-keyvault-secrets-spring-boot-starter")
+    implementation("com.microsoft.azure:azure-spring-boot-starter")
+
+    // Common & Logging
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    compileOnly("org.slf4j:slf4j-api")
+
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
