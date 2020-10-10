@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class MonitorService {
-    private var status = true
+    private var status: Boolean = true
 
     fun healthCheck(): Boolean {
         return status
