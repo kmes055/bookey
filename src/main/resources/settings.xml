@@ -1,0 +1,12 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>kmes055</id>
+            <username>kmes055</username>
+            <password>hpumsazssdfnfa3fffbjg4ywj25ibumbwl2hy6vadu5lgyo2tvlq</password>
+        </server>
+    </servers>
+</settings>
