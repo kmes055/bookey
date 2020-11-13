@@ -7,22 +7,21 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpSession
 
-class LoginInterceptor(
+class NotLoginInterceptor(
         private val cookieService: CookieService
-) : HandlerInterceptor {
+): HandlerInterceptor {
     private val log = KotlinLogging.logger {}
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         request.cookies
                 .let(cookieService::extractAuthCookieValue)
                 ?.let { getUserId(request.session, it) }
-                ?.let { request.setAttribute("userId", it) }
-                ?: handleNotLoginUser(request, response)
+                ?.let { handleLoginUser(request, response) }
 
         return true
     }
 
-    private fun handleNotLoginUser(request: HttpServletRequest, response: HttpServletResponse) {
+    private fun handleLoginUser(request: HttpServletRequest, response: HttpServletResponse) {
         log.info("blocked for {} ", request.requestURI)
         response.sendRedirect("/")
     }

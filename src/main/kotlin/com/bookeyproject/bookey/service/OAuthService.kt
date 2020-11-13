@@ -5,6 +5,7 @@ import com.bookeyproject.bookey.client.NaverOAuthClient
 import com.bookeyproject.bookey.client.OAuthClient
 import com.bookeyproject.bookey.constant.OAuthProvider
 import com.bookeyproject.bookey.constant.OAuthProvider.*
+import mu.KotlinLogging
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Service
 import java.lang.IllegalArgumentException
@@ -14,8 +15,10 @@ class OAuthService(
         private val googleOAuthClient: GoogleOAuthClient,
         private val naverOAuthClient: NaverOAuthClient
 ) {
+    private val log = KotlinLogging.logger {}
 
     fun getRedirectUrl(oAuthProvider: OAuthProvider): String {
+        log.debug("redirect URL: {}", getClient(oAuthProvider).getRedirectUrl())
         return getClient(oAuthProvider).getRedirectUrl()
     }
 

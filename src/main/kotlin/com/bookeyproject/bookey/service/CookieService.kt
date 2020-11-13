@@ -7,18 +7,21 @@ import javax.servlet.http.Cookie
 class CookieService {
     private final val oauthCookieName = "BKY_SES"
 
+    fun extractAuthCookieValue(cookies: Array<Cookie>): String? {
+        return cookies.toList()
+                .firstOrNull { isAuthCookie(it) }
+                ?.value
+    }
+
     fun createAuthCookie(sessionKey: String): Cookie {
         return Cookie(oauthCookieName, sessionKey).apply {
-            this.maxAge = 60*60*24
+            this.domain = "boo-key.com"
+            this.maxAge = -1
             this.path = "/"
         }
     }
 
-    fun findAuthCookie(cookies: List<Cookie>): Cookie? {
-        return cookies.firstOrNull(this::isAuthCookie)
-    }
-
-    private fun isAuthCookie(cookie: Cookie): Boolean {
+    fun isAuthCookie(cookie: Cookie): Boolean {
         return cookie.name == oauthCookieName
     }
 

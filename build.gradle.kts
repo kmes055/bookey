@@ -32,7 +32,7 @@ repositories {
 extra["azureVersion"] = "2.3.5"
 
 dependencies {
-    // Sporing
+    // Spring
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -50,7 +50,8 @@ dependencies {
 
 
     // Common & Logging
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
+    implementation("io.github.microutils:kotlin-logging:2.0.3")
     compileOnly("org.slf4j:slf4j-api")
 
     compileOnly("org.apache.commons:commons-lang3")
