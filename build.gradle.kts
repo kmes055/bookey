@@ -8,6 +8,7 @@ plugins {
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     id("org.jetbrains.intellij") version "0.4.1" apply false
+    id("net.linguica.maven-settings") version "0.5"
 }
 
 group = "com.bookeyproject"
@@ -31,9 +32,10 @@ repositories {
 extra["azureVersion"] = "2.3.5"
 
 dependencies {
-    // Sporing
+    // Spring
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     // Kotlin
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -44,12 +46,15 @@ dependencies {
     // Azure
     implementation("com.microsoft.azure:azure-keyvault-secrets-spring-boot-starter")
     implementation("com.microsoft.azure:azure-spring-boot-starter")
+    implementation("com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre11")
+
 
     // Common & Logging
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
+    implementation("io.github.microutils:kotlin-logging:2.0.3")
     compileOnly("org.slf4j:slf4j-api")
 
-    compileOnly("org.projectlombok:lombok")
+    compileOnly("org.apache.commons:commons-lang3")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
@@ -76,3 +81,8 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "11"
     }
 }
+
+tasks.getByName<BootWar>("bootWar") {
+    archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
+}
+

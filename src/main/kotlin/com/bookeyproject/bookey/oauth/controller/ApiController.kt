@@ -1,4 +1,4 @@
-package com.bookeyproject.bookey.controller
+package com.bookeyproject.bookey.oauth.controller
 
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -6,4 +6,5 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api")
 class ApiController {
+
 }
