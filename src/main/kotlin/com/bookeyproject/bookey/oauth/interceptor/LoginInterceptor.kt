@@ -13,8 +13,9 @@ class LoginInterceptor(
     private val log = KotlinLogging.logger {}
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+
         request.cookies
-                .let(cookieService::extractAuthCookieValue)
+                .let { cookieService.getAuthInfo(it) }
                 ?.let { getUserId(request.session, it) }
                 ?.let { request.setAttribute("userId", it) }
                 ?: handleNotLoginUser(request, response)
@@ -28,7 +29,9 @@ class LoginInterceptor(
     }
 
     private fun getUserId(session: HttpSession, sessionKey: String): String? {
-        return session.getAttribute(sessionKey) as String?
+        return if (sessionKey == "admin-cookie")
+            "admin-uid" else
+            session.getAttribute(sessionKey) as String?
     }
 
 }

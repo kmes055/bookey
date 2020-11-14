@@ -7,7 +7,7 @@ import javax.servlet.http.Cookie
 class CookieService {
     private final val oauthCookieName = "BKY_SES"
 
-    fun extractAuthCookieValue(cookies: Array<Cookie>): String? {
+    fun getAuthInfo(cookies: Array<Cookie>): String? {
         return cookies.toList()
                 .firstOrNull { isAuthCookie(it) }
                 ?.value

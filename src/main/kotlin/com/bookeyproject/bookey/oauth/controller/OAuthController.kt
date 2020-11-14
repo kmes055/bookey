@@ -1,6 +1,8 @@
 package com.bookeyproject.bookey.oauth.controller
 
+import com.bookeyproject.bookey.oauth.constant.OAuthProvider
 import com.bookeyproject.bookey.oauth.constant.OAuthProvider.GOOGLE
+import com.bookeyproject.bookey.oauth.constant.OAuthProvider.NAVER
 import com.bookeyproject.bookey.oauth.service.CookieService
 import com.bookeyproject.bookey.oauth.service.OAuthService
 import com.bookeyproject.bookey.oauth.service.UserService
@@ -18,7 +20,6 @@ import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/oauth")
-@Slf4j
 class OAuthController(
         private val oAuthService: OAuthService,
         private val userService: UserService,
@@ -31,19 +32,34 @@ class OAuthController(
                        response: HttpServletResponse,
                        @RequestParam(required = false) code: String?,
                        @RequestParam(required = false) state: String?) {
+        oAuthCallback(request, response, code, state, GOOGLE)
+    }
+
+    @GetMapping("/naver")
+    fun naverCallback(request: HttpServletRequest,
+                      response: HttpServletResponse,
+                      @RequestParam(required = false) code: String?,
+                      @RequestParam(required = false) state: String?) {
+        oAuthCallback(request, response, code, state, NAVER)
+    }
+
+    private fun oAuthCallback(request: HttpServletRequest,
+                              response: HttpServletResponse,
+                              code: String?,
+                              state: String?,
+                              provider: OAuthProvider
+    ) {
         log.debug("Code: {}, state: {}", code, state)
         if (code == null || state == null) {
-            log.debug("Redirect to {}", oAuthService.getRedirectUrl(GOOGLE))
-            response.sendRedirect(oAuthService.getRedirectUrl(GOOGLE))
+            response.sendRedirect(oAuthService.getRedirectUrl(provider))
             return
         }
 
-        val userId = oAuthService.processLogin(GOOGLE, code, state)
-        val bookeyUser = userService.getOrRegister(GOOGLE, userId)
-        val redirectUrl = if (bookeyUser.nickname.isNullOrEmpty()) "/register/nickname" else "/"
-
-        configureAuthInfo(request.session, response, userId)
-        response.sendRedirect(redirectUrl)
+        oAuthService.processLogin(provider, code, state)
+                .let { userService.getOrRegister(provider, it) }
+                .apply { configureAuthInfo(request.session, response, this.userId) }
+                .let { if (it.nickname.isNullOrEmpty()) "/register/nickname" else "/" }
+                .let { response.sendRedirect(it) }
     }
 
     @Transactional
@@ -52,4 +68,5 @@ class OAuthController(
         session.setAttribute(sessionKey, userId)
         response.addCookie(cookieService.createAuthCookie(sessionKey))
     }
+
 }
