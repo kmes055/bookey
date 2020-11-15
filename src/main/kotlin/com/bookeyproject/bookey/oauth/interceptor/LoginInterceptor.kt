@@ -15,7 +15,7 @@ class LoginInterceptor(
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
 
         request.cookies
-                .let { cookieService.getAuthInfo(it) }
+                ?.let { cookieService.getAuthInfo(it) }
                 ?.let { getUserId(request.session, it) }
                 ?.let { request.setAttribute("userId", it) }
                 ?: handleNotLoginUser(request, response)

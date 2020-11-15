@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/v1.0/user")
+@RequestMapping("/auth/v1.0/user")
 class UserController(
         private val userService: UserService
 ) {

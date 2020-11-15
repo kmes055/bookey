@@ -6,7 +6,8 @@ import com.bookeyproject.bookey.bookmark.service.BookmarkService
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 
-@RestController("v1.0/bookmarks")
+@RestController
+@RequestMapping("/v1.0/bookmarks")
 class BookmarkController(
         private val bookmarkService: BookmarkService
 ) {

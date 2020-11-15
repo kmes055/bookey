@@ -53,6 +53,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
     implementation("io.github.microutils:kotlin-logging:2.0.3")
     compileOnly("org.slf4j:slf4j-api")
+    implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
 
     compileOnly("org.apache.commons:commons-lang3")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
