@@ -35,25 +35,31 @@ dependencies {
     // Spring
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
     // Kotlin
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
     // Azure
     implementation("com.microsoft.azure:azure-keyvault-secrets-spring-boot-starter")
     implementation("com.microsoft.azure:azure-spring-boot-starter")
     implementation("com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre11")
+    implementation("io.r2dbc:r2dbc-mssql")
 
 
     // Common & Logging
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
     implementation("io.github.microutils:kotlin-logging:2.0.3")
     compileOnly("org.slf4j:slf4j-api")
-    implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
+    implementation("org.springdoc:springdoc-openapi-webflux-ui:1.4.8")
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
+    implementation("org.springdoc:springdoc-openapi-webflux-core:1.4.8")
+    implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
 
     compileOnly("org.apache.commons:commons-lang3")
     developmentOnly("org.springframework.boot:spring-boot-devtools")

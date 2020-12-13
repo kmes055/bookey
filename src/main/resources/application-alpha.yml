@@ -4,8 +4,8 @@ spring:
     hibernate:
       ddl-auto: none
   r2dbc:
-    url: r2dbc:pool:mssql://alpha-bookey.database.windows.net:1433/bkdb-alpha
-    username: bookey@alpha-bookey
+    url: r2dbc:mssql://alpha-bookey.database.windows.net:1433;database=bkdb-alpha;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    username: bookey
     password: monoffice381#*!
   security:
     oauth2:
@@ -14,8 +14,3 @@ spring:
           google:
             client-id: 24555835397-1e38co4km52v79tqed51ob039skgl1ts.apps.googleusercontent.com
             client-secret: yL03DEbjjrMvJLALKJ0bAmHt
-
-logging:
-  level:
-    root:
-      DEBUG
