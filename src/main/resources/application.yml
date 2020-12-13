@@ -1,0 +1,20 @@
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    path: /swagger
+    disable-swagger-default-url: true
+    display-query-params-without-oauth2: false
+
+  paths-to-match:
+    - /v1.0/**
+    - /auth/**
+    - /monitor/**
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive

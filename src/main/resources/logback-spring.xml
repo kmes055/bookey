@@ -15,10 +15,10 @@
 
     <springProfile name="dev">
         <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>/home1/irteam/logs/spring/bookey/bookey.log</file>
+            <file>/home/bkteamroot/logs/spring/bookey/bookey.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
                 <!-- rollover daily or active file size exceeds 100MB -->
-                <fileNamePattern>/home1/irteam/logs/spring/bookey/backup/bookey.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+                <fileNamePattern>/home/bkteamroot/logs/spring/bookey/backup/bookey.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
                 <maxFileSize>100MB</maxFileSize>
                 <!-- keep 180 days' worth of history -->
                 <maxHistory>180</maxHistory>
@@ -36,10 +36,10 @@
 
     <springProfile name="release">
         <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>/home1/irteam/logs/spring/bookey/bookey.log</file>
+            <file>/home/bkteamroot/logs/spring/bookey/bookey.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
                 <!-- rollover daily or active file size exceeds 100MB -->
-                <fileNamePattern>/home1/irteam/logs/spring/bookey/backup/bookey.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+                <fileNamePattern>/home/bkteamroot/logs/spring/bookey/backup/bookey.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
                 <maxFileSize>100MB</maxFileSize>
                 <!-- keep 180 days' worth of history -->
                 <maxHistory>180</maxHistory>
@@ -51,8 +51,8 @@
         </appender>
         <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
             <smtpHost>smtp.naver.com</smtpHost>
-            <to>kmes055@nhn.com</to>
-            <from>kmes055@nhn.com</from>
+            <to>kmes055@bookey.dooray.com</to>
+            <from>kmes055@naver.com</from>
             <subject>[Bookey] Bookey Exception</subject>
             <layout class="ch.qos.logback.classic.PatternLayout">
                 <pattern>[%-5level] %d{YYYY-MM-dd HH:mm:ss} [%thread] %class{36}.%method:%line - %msg%n</pattern>
