@@ -39,8 +39,8 @@ class UserRouter{
                     POST("/nickname", userHandler::setNickname)
                 }
                 filter { request, next ->
-                    log.debug("userId in attr: {}", request.attribute("userId"))
                     request.attribute("userId").map { it as String }.orElse(null)
+                        ?.also { log.debug("userId: {}", it) }
                         ?.takeIf { it.isNotBlank() }
                         ?.let { next(request) }
                         ?: status(HttpStatus.UNAUTHORIZED).bodyValueAndAwait("Please login")

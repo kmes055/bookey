@@ -13,12 +13,12 @@
         </root>
     </springProfile>
 
-    <springProfile name="dev">
+    <springProfile name="alpha">
         <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>/home/bkteamroot/logs/spring/bookey/bookey.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
                 <!-- rollover daily or active file size exceeds 100MB -->
-                <fileNamePattern>/home/bkteamroot/logs/spring/bookey/backup/bookey.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+                <fileNamePattern>/home/bkteamroot/logs/spring/bookey/backup/bookey.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
                 <maxFileSize>100MB</maxFileSize>
                 <!-- keep 180 days' worth of history -->
                 <maxHistory>180</maxHistory>

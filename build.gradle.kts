@@ -37,6 +37,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("org.springframework.boot:spring-boot-starter-reactor-netty")
 
     // Kotlin
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -50,7 +51,6 @@ dependencies {
     implementation("com.microsoft.azure:azure-spring-boot-starter")
     implementation("com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre11")
     implementation("io.r2dbc:r2dbc-mssql")
-
 
     // Common & Logging
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
@@ -91,5 +91,6 @@ tasks.withType<KotlinCompile> {
 
 tasks.getByName<BootWar>("bootWar") {
     archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
+    mainClassName = "com.bookeyproject.bookey.BookeyApplicationKt"
 }
 
