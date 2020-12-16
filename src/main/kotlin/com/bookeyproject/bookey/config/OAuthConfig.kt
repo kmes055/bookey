@@ -19,6 +19,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.WebFilterExchange
 import org.springframework.security.web.server.authentication.*
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository
+import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers
 import org.springframework.web.reactive.server.awaitSession
 import reactor.core.publisher.Mono
@@ -26,6 +27,7 @@ import reactor.core.publisher.Mono
 @Configuration
 @EnableWebFluxSecurity
 class OAuthConfig {
+    private val commonUrls = arrayOf("/admin/**", "/api/**", "/main/**", "/swagger")
 
     @Bean
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain =
@@ -39,6 +41,10 @@ class OAuthConfig {
                 .anyExchange().permitAll()
             .and()
             .oauth2Login()
+            .and()
+            .csrf()
+                .csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse())
+                .requireCsrfProtectionMatcher(ServerWebExchangeMatchers.pathMatchers(*commonUrls))
             .and()
             .build()
 
