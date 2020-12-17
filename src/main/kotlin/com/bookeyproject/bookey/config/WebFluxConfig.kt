@@ -11,21 +11,4 @@ class WebFluxConfig: WebFluxConfigurer {
     override fun configureArgumentResolvers(configurer: ArgumentResolverConfigurer) {
         super.configureArgumentResolvers(configurer)
     }
-
-
-//    override fun addInterceptors(registry: InterceptorRegistry) {
-//        registry.addInterceptor(MonitorFilter())
-//                .addPathPatterns("/monitor/**")
-//                .excludePathPatterns("/monitor/l7check")
-//
-//        registry.addInterceptor(LoginFilter(CookieService()))
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/", "/landing", "/login", "/register/*", "/oauth/*")
-//                .excludePathPatterns(staticFiles)
-//
-//        registry.addInterceptor(NotLoginFilter(CookieService()))
-//                .addPathPatterns("/login", "/register/*", "/oauth/*")
-//
-//        super.addInterceptors(registry)
-//    }
 }
