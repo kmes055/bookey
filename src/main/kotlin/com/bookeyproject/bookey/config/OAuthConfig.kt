@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UserDetailsRepositoryReactive
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
+import org.springframework.security.oauth2.client.web.server.OAuth2AuthorizationRequestRedirectWebFilter
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.WebFilterExchange
 import org.springframework.security.web.server.authentication.*
@@ -27,7 +28,6 @@ import reactor.core.publisher.Mono
 @Configuration
 @EnableWebFluxSecurity
 class OAuthConfig {
-    private val commonUrls = arrayOf("/admin/**", "/api/**", "/main/**", "/swagger")
 
     @Bean
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain =
@@ -42,10 +42,6 @@ class OAuthConfig {
             .and()
             .oauth2Login()
             .and()
-            .csrf()
-                .csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse())
-                .requireCsrfProtectionMatcher(ServerWebExchangeMatchers.pathMatchers(*commonUrls))
-            .and()
+            .csrf().disable()
             .build()
-
 }
