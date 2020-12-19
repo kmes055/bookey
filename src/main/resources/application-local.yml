@@ -14,6 +14,7 @@ spring:
           google:
             client-id: 24555835397-1e38co4km52v79tqed51ob039skgl1ts.apps.googleusercontent.com
             client-secret: yL03DEbjjrMvJLALKJ0bAmHt
+            redirect-uri: http://local.boo-key.com:8080/login/oauth2/code/google
 
 logging:
   level:
