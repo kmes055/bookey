@@ -13,7 +13,7 @@
         </root>
     </springProfile>
 
-    <springProfile name="dev">
+    <springProfile name="alpha">
         <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>/home/bkteamroot/logs/spring/bookey/bookey.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">

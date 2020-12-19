@@ -17,9 +17,8 @@ class UserHandler(
     private val log = KotlinLogging.logger {}
 
     suspend fun getUserInfo(request: ServerRequest): ServerResponse =
-        request.awaitPrincipal()
-            ?.also { log.info("session: {}", request.awaitSession().attributes) }
-            ?.name
+        request.attributeOrNull("userId")
+            ?.let { it as String }
             ?.let { userId ->
                 "google"
                     ?.let { OAuthProvider.of(it) }
@@ -45,9 +44,9 @@ class UserHandler(
         }.also { userRepository.save(it) }
 
     suspend fun setNickname(request: ServerRequest): ServerResponse {
-        request.headers().header("x-bookey-id")
-            .let { userId ->
-                userRepository.findById(userId.first())
+        request.headers().header("x-bookey-id").firstOrNull()
+            ?.let { userId ->
+                userRepository.findById(userId)
                     ?.also {
                         it.nickname = request.queryParamOrNull("nickname")
                         userRepository.update(it)
