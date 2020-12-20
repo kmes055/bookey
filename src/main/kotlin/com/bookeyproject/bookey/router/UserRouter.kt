@@ -23,8 +23,8 @@ class UserRouter{
 
     @Bean
     @RouterOperations(
-        RouterOperation(path = "/auth/v1.0/user/nickname", method = [POST], beanClass = UserHandler::class, beanMethod = "setNickname"),
-        RouterOperation(path = "/auth/v1.0/user", method = [GET], beanClass = UserHandler::class, beanMethod = "getUserInfo",
+        RouterOperation(path = "/user/nickname", method = [POST], beanClass = UserHandler::class, beanMethod = "setNickname"),
+        RouterOperation(path = "/user", method = [GET], beanClass = UserHandler::class, beanMethod = "getUserInfo",
             operation = Operation(operationId = "getUserInfo", summary = "Get user info from session", tags = [ "Auth" ],
             parameters = [ Parameter(`in` = ParameterIn.DEFAULT, name = "id", description = "Employee Id") ],
             responses = [
@@ -34,9 +34,10 @@ class UserRouter{
     )
     fun userRoutes(userHandler: UserHandler): RouterFunction<ServerResponse> =
             coRouter {
-                "/auth/v1.0/user".nest {
+                "/user".nest {
                     GET("/", userHandler::getUserInfo)
                     POST("/nickname", userHandler::setNickname)
+                    GET("/nickname", userHandler::dummy)
                 }
                 filter { request, next ->
                     request.attribute("userId").map { it as String }.orElse(null)
@@ -46,5 +47,4 @@ class UserRouter{
                         ?: status(HttpStatus.UNAUTHORIZED).bodyValueAndAwait("Please login")
                 }
             }
-
 }

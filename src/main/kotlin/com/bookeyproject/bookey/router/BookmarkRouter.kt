@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.reactive.function.server.bodyValueAndAwait
-import org.springframework.web.reactive.function.server.buildAndAwait
-import org.springframework.web.reactive.function.server.coRouter
+import org.springframework.web.reactive.function.server.*
 
 @Configuration
 @RequestMapping("/v1.0/bookmarks")
@@ -24,7 +22,8 @@ class BookmarkRouter{
             PUT("/", bookmarkHandler::modifyBookmark)
         }
         filter { request, next ->
-            request.attribute("userId").map { it as String }.orElse(null)
+            request.attributeOrNull("userId")
+                ?.let { it as String }
                 ?.takeIf { it.isNotBlank() }
                 ?.let { next(request) }
                 ?: status(HttpStatus.UNAUTHORIZED).bodyValueAndAwait("Please login")
