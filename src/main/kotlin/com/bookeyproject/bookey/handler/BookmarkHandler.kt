@@ -33,9 +33,7 @@ class BookmarkHandler(
 
     suspend fun getBookmark(request: ServerRequest): ServerResponse =
         bookmarkRepository.findById(request.pathVariable("id"))
-            ?.also { log.info("user id: {}", it) }
             ?.let { BookmarkResponse(it) }
-            ?.also { log.info("body: {}", it) }
             ?.let { ok().contentType(MediaType.APPLICATION_JSON).bodyValueAndAwait(it) }
             ?: notFound().buildAndAwait()
 
