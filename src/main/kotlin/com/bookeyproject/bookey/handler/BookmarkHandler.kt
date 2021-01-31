@@ -10,6 +10,7 @@ import mu.KotlinLogging
 import nonapi.io.github.classgraph.json.JSONSerializer
 import nonapi.io.github.classgraph.json.JSONUtils
 import org.apache.commons.lang3.RandomStringUtils
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.server.*
@@ -40,10 +41,14 @@ class BookmarkHandler(
 
     suspend fun addBookmark(request: ServerRequest): ServerResponse =
         request.awaitBodyOrNull<BookmarkRequest>()
-            ?.let { toEntity(it) }
-            ?.also { bookmarkRepository.save(it) }
-            ?.let { BookmarkResponse(it) }
-            ?.let { ok().bodyValueAndAwait(it) }
+            ?.let { req ->
+                request.attributeOrNull("userId")
+                    ?.let { toEntity(req, it as String) }
+                    ?.also { bookmarkRepository.save(it) }
+                    ?.let { BookmarkResponse(it) }
+                    ?.let { ok().bodyValueAndAwait(it) }
+                    ?: status(HttpStatus.UNAUTHORIZED).bodyValueAndAwait("Please login")
+            }
             ?: badRequest().bodyValueAndAwait("Empty request body")
 
     suspend fun modifyBookmark(request: ServerRequest): ServerResponse =
@@ -59,14 +64,14 @@ class BookmarkHandler(
             } ?: badRequest().bodyValueAndAwait("Empty Request body")
 
 
-    private suspend fun toEntity(request: BookmarkRequest): Bookmark =
+    private suspend fun toEntity(request: BookmarkRequest, ownerId: String): Bookmark =
         Bookmark(
             generateBookmarkId(),
             request.name,
             request.description,
             request.url,
             request.directory ?: "root",
-            request.ownerId
+            ownerId
         )
 
     private suspend fun generateBookmarkId(): String =

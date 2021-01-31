@@ -9,6 +9,5 @@ data class BookmarkRequest(
     val description: String,
     val url: String,
     val directory: String?,
-    val ownerId: String,
     val createDatetime: LocalDateTime? = LocalDateTime.now()
 )

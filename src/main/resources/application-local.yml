@@ -1,6 +1,6 @@
 spring:
   resources:
-    static-locations: https://alpha.boo-key.com
+    static-locations: https://alpha.boo-key.com/
   jpa:
     show-sql: true
     hibernate:
