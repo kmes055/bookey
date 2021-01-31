@@ -37,14 +37,16 @@ class UserRouter{
                 "/user".nest {
                     GET("/", userHandler::getUserInfo)
                     POST("/nickname", userHandler::setNickname)
-                    GET("/nickname", userHandler::dummy)
                 }
                 filter { request, next ->
-                    request.attribute("userId").map { it as String }.orElse(null)
-                        ?.also { log.debug("userId: {}", it) }
-                        ?.takeIf { it.isNotBlank() }
-                        ?.let { next(request) }
-                        ?: status(HttpStatus.UNAUTHORIZED).bodyValueAndAwait("Please login")
+                    request.attributes().putIfAbsent("userId", "9351c5aa-3308-40ed-8766-91f32330d314")
+                    next(request)
+//                    request.attributeOrNull("userId")
+//                        ?.let { it as String }
+//                        ?.also { log.debug("userId: {}", it) }
+//                        ?.takeIf { it.isNotBlank() }
+//                        ?.let { next(request) }
+//                        ?: status(HttpStatus.UNAUTHORIZED).bodyValueAndAwait("Please login")
                 }
             }
 }

@@ -8,7 +8,4 @@ import org.springframework.web.reactive.result.method.annotation.ArgumentResolve
 class WebFluxConfig: WebFluxConfigurer {
     private val staticFiles = listOf("/css/*", "/js/*", "/favicon*", "/index.html", "/static/media/*")
 
-    override fun configureArgumentResolvers(configurer: ArgumentResolverConfigurer) {
-        super.configureArgumentResolvers(configurer)
-    }
 }

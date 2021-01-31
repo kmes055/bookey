@@ -26,7 +26,7 @@ class AuthFilter(
 ) : WebFilter {
     private val log = KotlinLogging.logger {}
     private val pathsForLoginUser = arrayOf("/main", "/user/nickname", "/admin")
-    private val pathsForNotLoginUser = arrayOf("/", "/login", "/logon")
+    private val pathsForNotLoginUser = arrayOf("/login", "/logon")
 
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
         return mono {
@@ -64,9 +64,9 @@ class AuthFilter(
         }.also { userRepository.save(it) }
 
     private suspend fun redirectTo(response: ServerHttpResponse, path: String) =
-        response.apply {
-            statusCode = HttpStatus.FOUND
-            headers["location"] = path
+        response.also {
+            it.statusCode = HttpStatus.MOVED_PERMANENTLY
+            it.headers["Location"] = path
         }
 
     private suspend fun handleNotLoginUser(exchange: ServerWebExchange) =

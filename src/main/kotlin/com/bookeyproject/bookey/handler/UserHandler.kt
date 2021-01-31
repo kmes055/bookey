@@ -16,9 +16,6 @@ class UserHandler(
 ) {
     private val log = KotlinLogging.logger {}
 
-    suspend fun dummy(request: ServerRequest): ServerResponse =
-        ok().bodyValueAndAwait("Dummy value")
-
     suspend fun getUserInfo(request: ServerRequest): ServerResponse =
         request.attributeOrNull("userId")
             ?.let { it as String }
