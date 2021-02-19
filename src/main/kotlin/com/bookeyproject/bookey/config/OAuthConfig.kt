@@ -1,29 +1,15 @@
 package com.bookeyproject.bookey.config
 
-import com.bookeyproject.bookey.constant.OAuthProvider
-import com.bookeyproject.bookey.domain.BookeyUser
-import com.bookeyproject.bookey.handler.UserHandler
-import com.bookeyproject.bookey.repository.UserRepository
-import kotlinx.coroutines.reactor.mono
-import mu.KotlinLogging
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
-import org.springframework.security.authentication.ReactiveAuthenticationManager
-import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
-import org.springframework.security.oauth2.client.web.server.OAuth2AuthorizationRequestRedirectWebFilter
 import org.springframework.security.web.server.SecurityWebFilterChain
-import org.springframework.security.web.server.WebFilterExchange
 import org.springframework.security.web.server.authentication.*
-import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository
-import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository
-import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers
-import org.springframework.web.reactive.server.awaitSession
-import reactor.core.publisher.Mono
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.reactive.CorsConfigurationSource
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
+
 
 @Configuration
 @EnableWebFluxSecurity
@@ -43,6 +29,22 @@ class OAuthConfig {
             .oauth2Login()
             .and()
             .csrf().disable()
-            .cors().disable()
+            .cors().and()
             .build()
+
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+
+        configuration.addAllowedOrigin("*")
+        configuration.addAllowedMethod("*")
+        configuration.addAllowedHeader("*")
+        configuration.allowCredentials = true
+        configuration.maxAge = 3600L
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+
+        return source
+    }
 }
