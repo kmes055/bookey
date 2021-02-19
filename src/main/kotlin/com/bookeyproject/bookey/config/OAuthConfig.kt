@@ -43,5 +43,6 @@ class OAuthConfig {
             .oauth2Login()
             .and()
             .csrf().disable()
+            .cors().disable()
             .build()
 }
