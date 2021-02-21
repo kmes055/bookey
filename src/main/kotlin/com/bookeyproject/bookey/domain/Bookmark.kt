@@ -10,7 +10,7 @@ data class Bookmark(
     var name: String = EMPTY,
     var description: String = EMPTY,
     var url: String = EMPTY,
-    var directoryId: String = "root",
+    var directory: String = "root",
     var ownerId: String = EMPTY,
     var createDateTime: LocalDateTime = LocalDateTime.now()
 )

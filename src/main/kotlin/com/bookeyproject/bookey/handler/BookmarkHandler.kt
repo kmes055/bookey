@@ -87,6 +87,6 @@ class BookmarkHandler(
             name = req.name
             description = req.description
             url = req.url
-            directoryId = req.directory ?: directoryId
+            directory = req.directory ?: directory
         }
 }

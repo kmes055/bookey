@@ -16,6 +16,6 @@ data class BookmarkResponse(
         bookmark.name,
         bookmark.description,
         bookmark.url,
-        bookmark.directoryId
+        bookmark.directory
     )
 }
