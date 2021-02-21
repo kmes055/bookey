@@ -12,5 +12,5 @@ data class Bookmark(
     var url: String = EMPTY,
     var directory: String = "root",
     var ownerId: String = EMPTY,
-    var createDateTime: LocalDateTime = LocalDateTime.now()
+    var createDatetime: LocalDateTime = LocalDateTime.now()
 )
