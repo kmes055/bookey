@@ -14,4 +14,4 @@ spring:
           google:
             client-id: 340398161773-1n3mtmfvv3ko37fnlb5qt5c1shigdv62.apps.googleusercontent.com
             client-secret: 1qZ58rbPVL9sTAwNscOYVS1L
-            redirect-uri: https://alpha.boo-key.com/login/oauth2/code/google
+            redirect-uri: https://alpha-id.boo-key.com/login/oauth2/code/google

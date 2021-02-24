@@ -19,14 +19,8 @@ class UserHandler(
     suspend fun getUserInfo(request: ServerRequest): ServerResponse =
         request.attributeOrNull("userId")
             ?.let { it as String }
-            ?.let { userId ->
-                "google"
-                    ?.let { OAuthProvider.of(it) }
-                    ?.let { provider ->
-                        getUserInfoWithProvider(provider, userId)
-                            ?: register(provider, userId)
-                    } ?: badRequest().bodyValueAndAwait("Invalid provider name")
-            }?.let { ok().bodyValueAndAwait(it) }
+            ?.let { userRepository.findById(it) }
+            ?.let { ok().bodyValueAndAwait(it) }
             ?: badRequest().bodyValueAndAwait("No user authentication information found")
 
     suspend fun getUserInfoWithProvider(provider: OAuthProvider, userId: String): BookeyUser? =

@@ -23,8 +23,8 @@ class UserRouter{
 
     @Bean
     @RouterOperations(
-        RouterOperation(path = "/auth/v1.0/user/nickname", method = [POST], beanClass = UserHandler::class, beanMethod = "setNickname"),
-        RouterOperation(path = "/auth/v1.0/user", method = [GET], beanClass = UserHandler::class, beanMethod = "getUserInfo",
+        RouterOperation(path = "/user/nickname", method = [POST], beanClass = UserHandler::class, beanMethod = "setNickname"),
+        RouterOperation(path = "/user", method = [GET], beanClass = UserHandler::class, beanMethod = "getUserInfo",
             operation = Operation(operationId = "getUserInfo", summary = "Get user info from session", tags = [ "Auth" ],
             parameters = [ Parameter(`in` = ParameterIn.DEFAULT, name = "id", description = "Employee Id") ],
             responses = [
@@ -34,17 +34,19 @@ class UserRouter{
     )
     fun userRoutes(userHandler: UserHandler): RouterFunction<ServerResponse> =
             coRouter {
-                "/auth/v1.0/user".nest {
+                "/user".nest {
                     GET("/", userHandler::getUserInfo)
                     POST("/nickname", userHandler::setNickname)
                 }
                 filter { request, next ->
-                    request.attribute("userId").map { it as String }.orElse(null)
-                        ?.also { log.debug("userId: {}", it) }
-                        ?.takeIf { it.isNotBlank() }
-                        ?.let { next(request) }
-                        ?: status(HttpStatus.UNAUTHORIZED).bodyValueAndAwait("Please login")
+                    request.attributes().putIfAbsent("userId", "9351c5aa-3308-40ed-8766-91f32330d314")
+                    next(request)
+//                    request.attributeOrNull("userId")
+//                        ?.let { it as String }
+//                        ?.also { log.debug("userId: {}", it) }
+//                        ?.takeIf { it.isNotBlank() }
+//                        ?.let { next(request) }
+//                        ?: status(HttpStatus.UNAUTHORIZED).bodyValueAndAwait("Please login")
                 }
             }
-
 }
