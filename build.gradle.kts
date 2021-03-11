@@ -56,15 +56,22 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
     implementation("io.github.microutils:kotlin-logging:2.0.3")
     compileOnly("org.slf4j:slf4j-api")
+    compileOnly("org.apache.commons:commons-lang3")
+
+    // Opengraph
+    implementation("org.jsoup:jsoup:1.13.1")
+
+    // Open api
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.4.8")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
     implementation("org.springdoc:springdoc-openapi-webflux-core:1.4.8")
     implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
 
-    compileOnly("org.apache.commons:commons-lang3")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
+
+    // Test
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

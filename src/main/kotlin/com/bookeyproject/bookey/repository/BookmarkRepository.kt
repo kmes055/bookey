@@ -19,7 +19,7 @@ class BookmarkRepository(
                     .flow()
 
     suspend fun findById(id: String): Bookmark? =
-            client.execute("SELECT * from $tableName where bookmark_id = :id")
+            client.execute("SELECT * from $tableName where id = :id")
                     .bind("id", id)
                     .asType<Bookmark>()
                     .fetch()

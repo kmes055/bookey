@@ -23,6 +23,7 @@ class MonitorRouter {
                 GET("/dummy", monitorHandler::dummy)
                 POST("/enable", monitorHandler::enable)
                 POST("/disable", monitorHandler::disable)
+                GET("/test", monitorHandler::dummy)
                 filter { request, next ->
                     request.remoteAddressOrNull()
                         ?.address

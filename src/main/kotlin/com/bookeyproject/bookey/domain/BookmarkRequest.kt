@@ -1,13 +1,10 @@
 package com.bookeyproject.bookey.domain
 
-import java.time.LocalDateTime
-
 
 data class BookmarkRequest(
-    val bookmarkId: String?,
-    val name: String,
-    val description: String,
+    val id: String?,
+    val memo: String?,
     val url: String,
     val directory: String?,
-    val createDatetime: LocalDateTime? = LocalDateTime.now()
+    var ownerId: String
 )
