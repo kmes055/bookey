@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.*
 import java.net.URI
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @Service
 class BookmarkHandler(
@@ -37,9 +39,9 @@ class BookmarkHandler(
             ?: notFound().buildAndAwait()
 
     suspend fun getOpenGraphInfo(request: ServerRequest): ServerResponse =
-        request.pathVariable("id")
-            .let { bookmarkRepository.findById(it) }
-            ?.let { openGraphService.getOpenGraphInfo(it.url) }
+        request.queryParamOrNull("url")
+            ?.let { URLDecoder.decode(it, StandardCharsets.UTF_8) }
+            ?.let { openGraphService.getOpenGraphInfo(it) }
             ?.let { ok().contentType(MediaType.APPLICATION_JSON).bodyValueAndAwait(it) }
             ?: notFound().buildAndAwait()
 
