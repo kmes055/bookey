@@ -17,6 +17,7 @@ class BookmarkApiRouterV1_0 {
         "v1.0/bookmarks".nest {
             GET("/", bookmarkHandler::getBookmarks)
             GET("/{id}", bookmarkHandler::getBookmark)
+            GET("/search/{id}", bookmarkHandler::getOpenGraphInfo)
             POST("/", bookmarkHandler::addBookmark)
             PUT("/", bookmarkHandler::modifyBookmark)
         }
