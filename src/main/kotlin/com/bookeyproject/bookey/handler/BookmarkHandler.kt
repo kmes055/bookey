@@ -38,13 +38,6 @@ class BookmarkHandler(
             ?.let { ok().contentType(MediaType.APPLICATION_JSON).bodyValueAndAwait(it) }
             ?: notFound().buildAndAwait()
 
-    suspend fun getOpenGraphInfo(request: ServerRequest): ServerResponse =
-        request.queryParamOrNull("url")
-            ?.let { URLDecoder.decode(it, StandardCharsets.UTF_8) }
-            ?.let { openGraphService.getOpenGraphInfo(it) }
-            ?.let { ok().contentType(MediaType.APPLICATION_JSON).bodyValueAndAwait(it) }
-            ?: notFound().buildAndAwait()
-
     suspend fun addBookmark(request: ServerRequest): ServerResponse =
         request.awaitBodyOrNull<BookmarkRequest>()
             ?.let { req ->

@@ -16,7 +16,6 @@ class BookmarkApiRouterV1_0 {
     fun bookmarkRoutes(bookmarkHandler: BookmarkHandler) = coRouter {
         "v1.0/bookmarks".nest {
             GET("/", bookmarkHandler::getBookmarks)
-            GET("/search", bookmarkHandler::getOpenGraphInfo)
             GET("/{id}", bookmarkHandler::getBookmark)
             POST("/", bookmarkHandler::addBookmark)
             PUT("/", bookmarkHandler::modifyBookmark)
