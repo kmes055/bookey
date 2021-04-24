@@ -1,7 +1,7 @@
 package com.bookeyproject.bookey.service
 
-import com.bookeyproject.bookey.client.OpenGraphClient
-import com.bookeyproject.bookey.domain.OpenGraphInfo
+import com.bookeyproject.bookey.opengraph.client.OpenGraphClient
+import com.bookeyproject.bookey.opengraph.domain.OpenGraphInfo
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import java.net.URI

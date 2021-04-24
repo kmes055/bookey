@@ -1,9 +1,9 @@
 package com.bookeyproject.bookey.service
 
-import com.bookeyproject.bookey.domain.Bookmark
-import com.bookeyproject.bookey.domain.BookmarkRequest
-import com.bookeyproject.bookey.domain.BookmarkResponse
-import com.bookeyproject.bookey.repository.BookmarkRepository
+import com.bookeyproject.bookey.bookmark.domain.Bookmark
+import com.bookeyproject.bookey.bookmark.domain.BookmarkRequest
+import com.bookeyproject.bookey.bookmark.domain.BookmarkResponse
+import com.bookeyproject.bookey.bookmark.repository.BookmarkRepository
 import mu.KotlinLogging
 import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.StringUtils.EMPTY
