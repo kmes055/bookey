@@ -8,5 +8,6 @@ data class OpenGraphInfo(
     var image: String = EMPTY,
     var type: String = EMPTY,
     var siteName: String = EMPTY,
+    var creator: String = EMPTY,
     var favicon: String = EMPTY
 )
