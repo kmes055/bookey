@@ -1,11 +1,13 @@
 package com.bookeyproject.bookey.oauth.handler
 
+import com.bookeyproject.bookey.common.domain.StandardResponse
 import com.bookeyproject.bookey.oauth.client.OAuthClient
 import com.bookeyproject.bookey.oauth.constant.OAuthProvider
 import com.bookeyproject.bookey.oauth.domain.BookeyUser
 import com.bookeyproject.bookey.oauth.exception.LoginException
 import com.bookeyproject.bookey.oauth.repository.UserRepository
 import io.netty.handler.codec.http.cookie.CookieHeaderNames
+import kotlinx.coroutines.reactive.awaitFirstOrNull
 import mu.KotlinLogging
 import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.StringUtils
@@ -24,23 +26,27 @@ class OAuthHandler(
     private val naverOAuthClient: OAuthClient,
     private val userRepository: UserRepository
 ) {
+    companion object {
+        const val PROVIDER = "provider"
+        const val CODE = "code"
+        const val STATE = "state"
+    }
     private val log = KotlinLogging.logger { }
 
     suspend fun redirect(request: ServerRequest): ServerResponse =
-        request.pathVariable("provider")
+        request.pathVariable(PROVIDER)
             .let { OAuthProvider.of(it) }
-            ?.let { permanentRedirect(getOAuthRedirectURI(it)) }
-            ?.buildAndAwait()
+            ?.let { ok().render("redirect:${getOAuthRedirectURI(it)}").awaitFirstOrNull() }
             ?: badRequest().bodyValueAndAwait("Provider not found")
 
     suspend fun handleCallback(request: ServerRequest): ServerResponse =
-        request.pathVariable("provider")
+        request.pathVariable(PROVIDER)
             .let { OAuthProvider.of(it) }
             ?.let { provider ->
                 processLogin(
                     provider,
-                    request.queryParamOrNull("code") ?: throw LoginException("Failed to login: no code"),
-                    request.queryParamOrNull("state") ?: StringUtils.EMPTY)
+                    request.queryParamOrNull(CODE) ?: throw LoginException("Failed to login: no code"),
+                    request.queryParamOrNull(STATE) ?: StringUtils.EMPTY)
                 .let { getOrRegister(provider, it) } }
             ?.let { configureAuthInfo(request.awaitSession(), it) }
                 ?: throw LoginException("Should not reach here: handle callback")
@@ -100,10 +106,4 @@ class OAuthHandler(
             .secure(true)
             .sameSite(CookieHeaderNames.SameSite.Lax.name)
             .build()
-
-    suspend fun setNickname(userId: String, nickname: String) {
-        userRepository.findById(userId)
-            ?.copy(nickname = nickname)
-            ?.run { userRepository.save(this) }
-    }
 }

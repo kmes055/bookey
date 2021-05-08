@@ -85,7 +85,6 @@ class GoogleOAuthClient(
     override fun getUserInfo(token: String): String {
         val jwt: JWT = JWTParser.parse(token)
         val sub = jwt.jwtClaimsSet.getClaim("sub") as String
-        log.info("sub: {}", sub)
         return sub
     }
 

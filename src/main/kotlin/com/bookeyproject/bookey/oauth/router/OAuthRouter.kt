@@ -1,5 +1,6 @@
 package com.bookeyproject.bookey.oauth.router
 
+import com.bookeyproject.bookey.common.util.RouterUtils
 import com.bookeyproject.bookey.oauth.handler.OAuthHandler
 import mu.KotlinLogging
 import org.springframework.context.annotation.Bean
@@ -16,6 +17,7 @@ class OAuthRouter {
     fun oAuthRoutes(oAuthHandler: OAuthHandler): RouterFunction<ServerResponse> = coRouter {
         GET("/oauth/{provider}", oAuthHandler::redirect)
         GET("/callback/{provider}", oAuthHandler::handleCallback)
-    }
 
+        filter(RouterUtils.Companion::notLoginFilter)
+    }
 }
