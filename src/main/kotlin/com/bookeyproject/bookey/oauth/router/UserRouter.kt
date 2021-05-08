@@ -1,6 +1,10 @@
 package com.bookeyproject.bookey.oauth.router
 
+import com.bookeyproject.bookey.common.domain.StandardResponse
+import com.bookeyproject.bookey.common.type.ResponseType
+import com.bookeyproject.bookey.common.util.RouterUtils
 import com.bookeyproject.bookey.oauth.domain.BookeyUser
+import com.bookeyproject.bookey.oauth.exception.LoginException
 import com.bookeyproject.bookey.oauth.handler.UserHandler
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -13,7 +17,6 @@ import org.springdoc.core.annotations.RouterOperation
 import org.springdoc.core.annotations.RouterOperations
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RequestMethod.POST
 import org.springframework.web.reactive.function.server.RouterFunction
@@ -53,18 +56,15 @@ class UserRouter {
     fun userRoutes(userHandler: UserHandler): RouterFunction<ServerResponse> = coRouter {
         "/user".nest {
             GET("/", userHandler::getUserInfo)
-            GET("/nickname/random", userHandler::getRandomNickname)
+            GET("/nickname", userHandler::getRandomNickname)
             POST("/nickname", userHandler::setNickname)
         }
-        filter { request, next ->
-            request.headers()
-                .header("X-Bookey-id")
-                .firstOrNull()
-                ?.also { log.debug("userId: {}", it) }
-                ?.also { request.attributes()["userId"] = it }
-                ?.takeIf { it.isNotBlank() }
-                ?.let { next(request) }
-                ?: status(HttpStatus.UNAUTHORIZED).bodyValueAndAwait("Please login")
+        filter(RouterUtils.Companion::mockingLoginFilter)
+        onError<LoginException> { e, _ ->
+            ok().bodyValueAndAwait(StandardResponse<Unit>(ResponseType.UNAUTHORIZED, e.message ?: ""))
+        }
+        onError<Throwable> { e, _ ->
+            ok().bodyValueAndAwait(StandardResponse<Unit>(ResponseType.UNKNOWN_ERROR, e.message ?: ""))
         }
     }
 }
