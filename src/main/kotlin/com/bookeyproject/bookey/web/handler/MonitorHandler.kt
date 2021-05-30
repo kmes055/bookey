@@ -33,8 +33,4 @@ class MonitorHandler {
 
         return ok().buildAndAwait()
     }
-
-    suspend fun dummy(request: ServerRequest): ServerResponse = coroutineScope {
-        ok().bodyValueAndAwait(42)
-    }
 }

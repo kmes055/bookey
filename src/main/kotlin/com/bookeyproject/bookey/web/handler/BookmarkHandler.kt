@@ -38,16 +38,12 @@ class BookmarkHandler(
 
     suspend fun addBookmark(request: ServerRequest): ServerResponse =
         request.awaitBodyOrNull<BookmarkRequest>()
-            ?.let { req ->
-                request.attributeOrNull("userId")
-                    ?.let { req.ownerId = it as String }
-                    ?.let { bookmarkTransformer.toModel(req) }
-                    ?.also { bookmarkRepository.save(it) }
-                    ?.let { bookmarkTransformer.fromModel(it) }
-                    ?.let { StandardResponse(it) }
-                    ?.let { ok().bodyValueAndAwait(it) }
-                    ?: ok().bodyValueAndAwait(StandardResponse<Unit>(ResponseType.UNAUTHORIZED))
-            }
+            ?.also { it.ownerId = request.attributeOrNull("userId") as String }
+            ?.let { bookmarkTransformer.toModel(it) }
+            ?.also { bookmarkRepository.save(it) }
+            ?.let { bookmarkTransformer.fromModel(it) }
+            ?.let { StandardResponse(it) }
+            ?.let { ok().bodyValueAndAwait(it) }
             ?: ok().bodyValueAndAwait(StandardResponse<Unit>(ResponseType.BAD_REQUEST))
 
     suspend fun modifyBookmark(request: ServerRequest): ServerResponse =
@@ -60,7 +56,6 @@ class BookmarkHandler(
                     ?.let { bookmarkTransformer.fromModel(it) }
                     ?.let { StandardResponse(it) }
                     ?.let { ok().bodyValueAndAwait(it) }
-                    ?: ok().bodyValueAndAwait(StandardResponse<Unit>(ResponseType.NOT_FOUND))
-            }
+                    ?: ok().bodyValueAndAwait(StandardResponse<Unit>(ResponseType.NOT_FOUND)) }
             ?: ok().bodyValueAndAwait(StandardResponse<Unit>(ResponseType.BAD_REQUEST))
 }

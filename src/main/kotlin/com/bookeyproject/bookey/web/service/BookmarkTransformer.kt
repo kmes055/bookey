@@ -4,7 +4,9 @@ import com.bookeyproject.bookey.opengraph.service.OpenGraphService
 import com.bookeyproject.bookey.web.domain.model.Bookmark
 import com.bookeyproject.bookey.web.domain.request.BookmarkRequest
 import com.bookeyproject.bookey.web.domain.response.BookmarkResponse
+import com.bookeyproject.bookey.web.exception.ApiException
 import com.bookeyproject.bookey.web.repository.BookmarkRepository
+import com.bookeyproject.bookey.web.type.ResponseType
 import mu.KotlinLogging
 import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.StringUtils.EMPTY
@@ -19,12 +21,11 @@ class BookmarkTransformer(
 
     override suspend fun toModel(request: BookmarkRequest): Bookmark =
         Bookmark().apply {
-
             this.id = generateBookmarkId()
             this.url = request.url
             this.directory = request.directory ?: EMPTY
             this.memo = request.memo ?: EMPTY
-            this.ownerId = request.ownerId
+            this.ownerId = request.ownerId ?: throw ApiException(ResponseType.UNAUTHORIZED)
         }.also { it.setOpenGraph() }
 
     override suspend fun fromModel(model: Bookmark): BookmarkResponse = BookmarkResponse(

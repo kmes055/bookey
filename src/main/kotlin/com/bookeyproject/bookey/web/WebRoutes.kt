@@ -4,6 +4,7 @@ import com.bookeyproject.bookey.auth.mockingLoginFilter
 import com.bookeyproject.bookey.web.domain.StandardResponse
 import com.bookeyproject.bookey.web.exception.ApiException
 import com.bookeyproject.bookey.web.handler.BookmarkHandler
+import com.bookeyproject.bookey.web.handler.DirectoryHandler
 import com.bookeyproject.bookey.web.handler.MonitorHandler
 import com.bookeyproject.bookey.web.type.ResponseType
 import mu.KotlinLogging
@@ -17,13 +18,18 @@ private val log = KotlinLogging.logger {}
 @Configuration
 class WebRoutes {
     @Bean
-    fun apiRoutes(bookmarkHandler: BookmarkHandler) = coRouter {
+    fun apiRoutes(bookmarkHandler: BookmarkHandler, directoryHandler: DirectoryHandler) = coRouter {
         "v1.0".nest {
             "/bookmarks".nest {
                 GET("/", bookmarkHandler::getBookmarks)
                 GET("/{id}", bookmarkHandler::getBookmark)
                 POST("/", bookmarkHandler::addBookmark)
                 PUT("/", bookmarkHandler::modifyBookmark)
+            }
+            "/directories".nest {
+                GET("/", directoryHandler::getDirectories)
+                GET("{id}", directoryHandler::getDirectory)
+                POST("/", directoryHandler::addDirectory)
             }
             filter(::mockingLoginFilter)
             onError<ApiException> { e, _ ->
@@ -40,10 +46,8 @@ class WebRoutes {
         GET("/monitor/l7check", monitorHandler::healthCheck)
 
         "/monitor".nest {
-            GET("/dummy", monitorHandler::dummy)
             POST("/enable", monitorHandler::enable)
             POST("/disable", monitorHandler::disable)
-            GET("/test", monitorHandler::dummy)
             filter { request, next ->
                 request.remoteAddressOrNull()
                     ?.address

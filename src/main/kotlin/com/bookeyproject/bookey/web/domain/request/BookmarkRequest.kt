@@ -10,5 +10,5 @@ data class BookmarkRequest(
     val favicon: String?,
     val thumbnail: String?,
     val memo: String?,
-    var ownerId: String
+    var ownerId: String?
 )
