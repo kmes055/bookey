@@ -1,13 +1,14 @@
 package com.bookeyproject.bookey.opengraph.handler
 
-import com.bookeyproject.bookey.service.OpenGraphService
+import com.bookeyproject.bookey.opengraph.service.OpenGraphService
 import org.springframework.http.MediaType
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.server.*
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
-@Service
+@Component
 class OpenGraphHandler(
     private val openGraphService: OpenGraphService
 ) {

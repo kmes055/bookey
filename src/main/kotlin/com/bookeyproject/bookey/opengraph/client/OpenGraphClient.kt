@@ -8,14 +8,14 @@ import kotlinx.coroutines.Dispatchers
 import org.apache.commons.lang3.StringUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitExchange
 import java.net.URI
 
-@Repository
+@Component
 class OpenGraphClient {
-
     suspend fun fetch(url: String): Document =
         CoroutineScope(Dispatchers.IO)
             .runCatching {
@@ -57,7 +57,6 @@ class OpenGraphClient {
             ?: candidate2
             ?: StringUtils.EMPTY
     }
-
 
 
 }
