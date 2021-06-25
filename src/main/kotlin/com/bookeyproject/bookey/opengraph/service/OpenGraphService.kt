@@ -6,6 +6,7 @@ import com.bookeyproject.bookey.opengraph.constant.OpenGraphConstant.META
 import com.bookeyproject.bookey.opengraph.constant.OpenGraphConstant.NAME
 import com.bookeyproject.bookey.opengraph.constant.OpenGraphConstant.PROPERTY
 import com.bookeyproject.bookey.opengraph.domain.OpenGraphInfo
+import com.bookeyproject.bookey.web.domain.StandardResponse
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import java.net.URI
@@ -16,7 +17,10 @@ class OpenGraphService(
 ) {
     private val log = KotlinLogging.logger { }
 
-    suspend fun getOpenGraphInfo(url: String): OpenGraphInfo =
+    suspend fun getOpenGraphInfo(url: String): StandardResponse<OpenGraphInfo> =
+        StandardResponse(fetchOpenGraphInfo(url))
+
+    suspend fun fetchOpenGraphInfo(url: String) =
         OpenGraphInfo().apply {
             val document = openGraphClient.fetch(url.schemed())
 

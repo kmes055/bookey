@@ -51,7 +51,7 @@ class BookmarkTransformer(
     }
 
     private suspend fun Bookmark.setOpenGraph() =
-        openGraphService.getOpenGraphInfo(url)
+        openGraphService.fetchOpenGraphInfo(url)
             .also {
                 title = title.ifBlank { it.title }
                 description = description.ifBlank { it.title }
