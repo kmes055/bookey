@@ -1,0 +1,13 @@
+[Unit]
+Description=Bookey
+After=syslog.target
+
+[Service]
+User=irteam
+Group=irteam
+Environment="JAVA_HOME=/home/bkteamroot/apps/jdk"
+ExecStart="/home/bkteamroot/deploy/bookey/@project.build.finalName@.jar"
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
