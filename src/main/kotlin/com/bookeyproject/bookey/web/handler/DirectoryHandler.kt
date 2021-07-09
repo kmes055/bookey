@@ -21,7 +21,7 @@ class DirectoryHandler(
 
     suspend fun getDirectories(request: ServerRequest): ServerResponse =
         request.attributeOrNull("userId")
-            ?.let { directoryRepository.findAllByOwnerId(it as String) }
+            ?.let { directoryRepository.findAllByUserId(it as String) }
             ?.map { directoryTransformer.fromModel(it) }
             ?.let { StandardResponse(it.toList()) }
             ?.let { ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValueAndAwait(it) }
@@ -37,7 +37,7 @@ class DirectoryHandler(
 
     suspend fun addDirectory(request: ServerRequest): ServerResponse =
         request.awaitBodyOrNull<DirectoryRequest>()
-            ?.also { it.ownerId = request.attributeOrNull("userId") as String }
+            ?.also { it.userId = request.attributeOrNull("userId") as String }
             ?.let { directoryTransformer.toModel(it) }
             ?.also { directoryRepository.save(it) }
             ?.let { directoryTransformer.fromModel(it) }

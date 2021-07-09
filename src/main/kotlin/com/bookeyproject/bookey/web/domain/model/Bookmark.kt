@@ -7,7 +7,7 @@ import java.time.OffsetDateTime
 data class Bookmark(
     @Id
     var id: String = EMPTY,
-    var ownerId: String = EMPTY,
+    var userId: String = EMPTY,
     var title: String = EMPTY,
     var description: String = EMPTY,
     var url: String = EMPTY,

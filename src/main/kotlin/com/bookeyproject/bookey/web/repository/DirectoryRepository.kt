@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository
 class DirectoryRepository(private val databaseClient: DatabaseClient) {
     private val tableName = "directory"
 
-    suspend fun findAllByOwnerId(ownerId: String) =
+    suspend fun findAllByUserId(userId: String) =
         databaseClient.select()
             .from(tableName)
-            .matching(where("ownerId").`is`(ownerId))
+            .matching(where("userId").`is`(userId))
             .asType<Directory>()
             .fetch()
             .flow()

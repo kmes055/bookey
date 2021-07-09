@@ -19,7 +19,7 @@ class DirectoryTransformer(private val directoryRepository: DirectoryRepository)
             generateDirectoryId(),
             request.name,
             request.parent ?: EMPTY,
-            request.ownerId ?: throw ApiException(ResponseType.UNAUTHORIZED),
+            request.userId ?: throw ApiException(ResponseType.UNAUTHORIZED),
             OffsetDateTime.now()
         )
 

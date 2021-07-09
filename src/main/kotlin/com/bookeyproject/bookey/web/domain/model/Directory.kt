@@ -9,6 +9,6 @@ data class Directory(
     var id: String = EMPTY,
     var name: String = EMPTY,
     var parent: String = EMPTY,
-    var ownerId: String = EMPTY,
+    var userId: String = EMPTY,
     var createdAt: OffsetDateTime = OffsetDateTime.now()
 )

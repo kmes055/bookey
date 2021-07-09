@@ -25,7 +25,7 @@ class BookmarkTransformer(
             this.url = request.url
             this.directory = request.directory ?: EMPTY
             this.memo = request.memo ?: EMPTY
-            this.ownerId = request.ownerId ?: throw ApiException(ResponseType.UNAUTHORIZED)
+            this.userId = request.userId ?: throw ApiException(ResponseType.UNAUTHORIZED)
         }.also { it.setOpenGraph() }
 
     override suspend fun fromModel(model: Bookmark): BookmarkResponse = BookmarkResponse(

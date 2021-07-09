@@ -7,14 +7,14 @@ data class DirectoryResponse(
     val id: String,
     val name: String,
     val parent: String?,
-    val ownerId: String,
+    val userId: String,
     val createdAt: OffsetDateTime
 ) {
     constructor(directory: Directory) : this(
         directory.id,
         directory.name,
         directory.parent,
-        directory.ownerId,
+        directory.userId,
         directory.createdAt
     )
 }

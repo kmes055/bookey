@@ -23,7 +23,7 @@ class BookmarkHandler(
 
     suspend fun getBookmarks(request: ServerRequest): ServerResponse =
         request.attributeOrNull("userId")
-            ?.let { bookmarkRepository.findAllByOwnerId(it as String) }
+            ?.let { bookmarkRepository.findAllByUserId(it as String) }
             ?.map { bookmarkTransformer.fromModel(it) }
             ?.let { StandardResponse(it.toList()) }
             ?.let { ok().contentType(MediaType.APPLICATION_JSON).bodyValueAndAwait(it) }
@@ -38,7 +38,7 @@ class BookmarkHandler(
 
     suspend fun addBookmark(request: ServerRequest): ServerResponse =
         request.awaitBodyOrNull<BookmarkRequest>()
-            ?.also { it.ownerId = request.attributeOrNull("userId") as String }
+            ?.also { it.userId = request.attributeOrNull("userId") as String }
             ?.let { bookmarkTransformer.toModel(it) }
             ?.also { bookmarkRepository.save(it) }
             ?.let { bookmarkTransformer.fromModel(it) }

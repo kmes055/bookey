@@ -12,10 +12,10 @@ class BookmarkRepository(
 ) {
     private final val tableName = "bookmark"
 
-    fun findAllByOwnerId(ownerId: String): Flow<Bookmark> =
+    fun findAllByUserId(userId: String): Flow<Bookmark> =
         client.select()
             .from(tableName)
-            .matching(where("ownerId").`is`(ownerId))
+            .matching(where("userId").`is`(userId))
             .asType<Bookmark>()
             .fetch()
             .flow()
