@@ -40,7 +40,6 @@ class WebRoutes {
             }
         }
     }
-
     @Bean
     fun monitorRoutes(monitorHandler: MonitorHandler) = coRouter {
         GET("/monitor/l7check", monitorHandler::healthCheck)

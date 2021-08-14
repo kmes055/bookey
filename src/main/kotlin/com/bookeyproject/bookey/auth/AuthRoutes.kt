@@ -33,9 +33,10 @@ class AuthRoutes {
 
     @Bean
     fun oauthRoutes(oAuthHandler: OAuthHandler) = coRouter {
-
-        GET("/oauth/{provider}", oAuthHandler::redirect)
-        GET("/callback/{provider}", oAuthHandler::handleCallback)
+        "/oauth".nest {
+            GET("/{provider}", oAuthHandler::redirect)
+            GET("/callback/{provider}", oAuthHandler::handleCallback)
+        }
         filter(::notLoginFilter)
 
     }

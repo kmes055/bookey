@@ -2,12 +2,9 @@ package com.bookeyproject.bookey.auth
 
 import kotlinx.coroutines.reactive.awaitFirst
 import mu.KotlinLogging
-import org.springframework.security.core.context.SecurityContext
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
-import org.springframework.web.reactive.function.server.awaitSession
 
 private val log = KotlinLogging.logger {}
 private const val visitHeader = "X-bky-his"
@@ -39,11 +36,6 @@ suspend fun redirectLogin(): ServerResponse = redirectTo("/login")
 suspend fun redirectMain(): ServerResponse = redirectTo("/bookmark")
 
 suspend fun redirectLanding(): ServerResponse = redirectTo("/")
-
-suspend fun extractProviderName(request: ServerRequest): String? =
-    request.awaitSession().getAttribute<SecurityContext>("SPRING_SECURITY_CONTEXT")
-        ?.let { it.authentication as OAuth2AuthenticationToken }
-        ?.authorizedClientRegistrationId
 
 private suspend fun redirectTo(path: String): ServerResponse = ok().render("redirect:${path}").awaitFirst()
 

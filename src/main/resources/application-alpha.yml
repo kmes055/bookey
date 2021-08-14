@@ -7,14 +7,6 @@ spring:
     url: r2dbc:pool:mssql://alpha-bookey.database.windows.net:1433/bkdb-alpha
     username: bookey@alpha-bookey
     password: monoffice381#*!
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 340398161773-1n3mtmfvv3ko37fnlb5qt5c1shigdv62.apps.googleusercontent.com
-            client-secret: 1qZ58rbPVL9sTAwNscOYVS1L
-            redirect-uri: https://alpha-id.boo-key.com/login/oauth2/code/google
 
 oauth:
   google:
@@ -25,3 +17,8 @@ oauth:
     client-id: 3276361545807097
     client-secret: bc86a13618c7a2880b63c725aba28916
     redirect-uri: https://alpha.boo-key.com/login/oauth2/code/facebook
+
+
+bookey:
+  web:
+    host: https://alpha.boo-key.com

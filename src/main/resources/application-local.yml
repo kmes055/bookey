@@ -9,28 +9,20 @@ spring:
     url: r2dbc:pool:mssql://alpha-bookey.database.windows.net:1433/bkdb-alpha
     username: bookey@alpha-bookey
     password: monoffice381#*!
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 24555835397-1e38co4km52v79tqed51ob039skgl1ts.apps.googleusercontent.com
-            client-secret: yL03DEbjjrMvJLALKJ0bAmHt
-            redirect-uri: http://local.boo-key.com:8080/login/oauth2/code/google
-          facebook:
-            client-id: 3276361545807097
-            client-secret: bc86a13618c7a2880b63c725aba28916
-            redirect-uri: https://alpha.boo-key.com/login/oauth2/code/facebook
 
 oauth:
   google:
     client-id: 24555835397-1e38co4km52v79tqed51ob039skgl1ts.apps.googleusercontent.com
     client-secret: yL03DEbjjrMvJLALKJ0bAmHt
-    redirect-uri: http://local.boo-key.com:8080/login/oauth2/code/google
+    redirect-uri: http://local-id.boo-key.com:8080/oauth/callback/google
   facebook:
     client-id: 3276361545807097
     client-secret: bc86a13618c7a2880b63c725aba28916
-    redirect-uri: https://alpha.boo-key.com/login/oauth2/code/facebook
+    redirect-uri: http://local-id.boo-key.com:8080/oauth/callback/naver
+
+bookey:
+  web:
+    host: http://local.boo-key.com:3000
 
 logging:
   level:

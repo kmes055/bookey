@@ -25,8 +25,6 @@ class OAuthConfig {
             .authorizeExchange()
             .anyExchange().permitAll()
             .and()
-            .oauth2Login()
-            .and()
             .csrf().disable()
             .cors().and()
             .build()
